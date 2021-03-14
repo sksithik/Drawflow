@@ -1177,7 +1177,7 @@ export default class Drawflow {
 
 
   dblclick(e) {
-    this.dispatch('nodeDoubleSelected', this.node_selected.id.slice(5));
+    this.dispatch('nodeDoubleSelected', this.drawflow.drawflow[this.module].data[this.node_selected.id.slice(5)]);
     if(this.connection_selected != null && this.reroute) {
         this.createReroutePoint(this.connection_selected);
     }
@@ -1614,7 +1614,11 @@ export default class Drawflow {
 
     }
   }
-
+  updateNode(id, data) {
+    var moduleName = this.getModuleFromNodeId(id)
+    this.drawflow.drawflow[moduleName].data[id] = data;
+    this.dispatch('nodeUpdated', this.drawflow.drawflow[moduleName].data[id]);
+  }
   updateNodeDataFromId(id, data) {
     var moduleName = this.getModuleFromNodeId(id)
     this.drawflow.drawflow[moduleName].data[id].data = data;
